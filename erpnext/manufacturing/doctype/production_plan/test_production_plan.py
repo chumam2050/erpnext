@@ -151,6 +151,73 @@ class TestProductionPlan(IntegrationTestCase):
 		sr2.cancel()
 		pln.cancel()
 
+	def test_projected_qty_cascading_across_multiple_sales_orders(self):
+		rm_item = make_item(
+			"_Test RM For Cascading",
+			{"is_stock_item": 1, "valuation_rate": 100},
+		).name
+
+		fg_item_a = make_item(
+			"_Test FG A For Cascading",
+			{"is_stock_item": 1, "valuation_rate": 200},
+		).name
+
+		if not frappe.db.exists("BOM", {"item": fg_item_a, "docstatus": 1}):
+			make_bom(item=fg_item_a, raw_materials=[rm_item], rm_qty=1)
+
+		# Stock for RM
+		sr = create_stock_reconciliation(item_code=rm_item, target="_Test Warehouse - _TC", qty=1, rate=100)
+
+		# Sales orders
+		so1 = make_sales_order(item_code=fg_item_a, qty=1)
+		so2 = make_sales_order(item_code=fg_item_a, qty=1)
+
+		# Production plan
+		pln = frappe.get_doc(
+			{
+				"doctype": "Production Plan",
+				"company": "_Test Company",
+				"posting_date": nowdate(),
+				"get_items_from": "Sales Order",
+				"ignore_existing_ordered_qty": 1,
+			}
+		)
+		pln.append(
+			"sales_orders",
+			{
+				"sales_order": so1.name,
+				"sales_order_date": so1.transaction_date,
+				"customer": so1.customer,
+				"grand_total": so1.grand_total,
+			},
+		)
+		pln.append(
+			"sales_orders",
+			{
+				"sales_order": so2.name,
+				"sales_order_date": so2.transaction_date,
+				"customer": so2.customer,
+				"grand_total": so2.grand_total,
+			},
+		)
+
+		pln.get_items()
+		pln.insert()
+
+		mr_items = get_items_for_material_requests(pln.as_dict())
+		quantities = [d["quantity"] for d in mr_items]
+		rm_qty = sum(quantities)
+
+		self.assertEqual(len(mr_items), 2)  # one for each SO
+		self.assertEqual(rm_qty, 1, "Cascading failed: total MR qty should be 1 (2 needed - 1 in stock)")
+		self.assertEqual(
+			quantities,
+			[0, 1],
+			"Cascading failed: first item should consume stock (qty=0), second should need procurement (qty=1)",
+		)
+
+		sr.cancel()
+
 	def test_production_plan_with_non_stock_item(self):
 		"Test if MR Planning table includes Non Stock RM."
 		pln = create_production_plan(item_code="Test Production Item 1", include_non_stock_items=1)
@@ -1143,7 +1210,7 @@ class TestProductionPlan(IntegrationTestCase):
 		for item_code in mr_items:
 			self.assertTrue(item_code in validate_mr_items)
 
-	def test_resered_qty_for_production_plan_for_material_requests(self):
+	def test_reserved_qty_for_production_plan_for_material_requests(self):
 		from erpnext.stock.utils import get_or_make_bin
 
 		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - _TC")
@@ -1165,7 +1232,7 @@ class TestProductionPlan(IntegrationTestCase):
 		self.assertEqual(pln.docstatus, 2)
 		self.assertEqual(after_qty, before_qty)
 
-	def test_resered_qty_for_production_plan_for_work_order(self):
+	def test_reserved_qty_for_production_plan_for_work_order(self):
 		from erpnext.stock.utils import get_or_make_bin
 
 		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - _TC")
@@ -1218,7 +1285,7 @@ class TestProductionPlan(IntegrationTestCase):
 
 			self.assertEqual(after_qty, before_qty)
 
-	def test_resered_qty_for_production_plan_for_less_rm_qty(self):
+	def test_reserved_qty_for_production_plan_for_less_rm_qty(self):
 		from erpnext.stock.utils import get_or_make_bin
 
 		bin_name = get_or_make_bin("Raw Material Item 1", "_Test Warehouse - _TC")
@@ -1256,11 +1323,12 @@ class TestProductionPlan(IntegrationTestCase):
 		after_qty = flt(frappe.db.get_value("Bin", bin_name, "reserved_qty_for_production_plan"))
 
 		self.assertEqual(after_qty, before_qty)
-		completed_plans = get_non_completed_production_plans()
-		for plan in plans:
-			self.assertFalse(plan in completed_plans)
+		non_completed_plans = get_non_completed_production_plans()
 
-	def test_resered_qty_for_production_plan_for_material_requests_with_multi_UOM(self):
+		for plan in plans:
+			self.assertTrue(plan in non_completed_plans)
+
+	def test_reserved_qty_for_production_plan_for_material_requests_with_multi_UOM(self):
 		from erpnext.stock.utils import get_or_make_bin
 
 		fg_item = make_item(properties={"is_stock_item": 1, "stock_uom": "_Test UOM 1"}).name
@@ -2422,9 +2490,17 @@ class TestProductionPlan(IntegrationTestCase):
 			self.assertEqual(row.ordered_qty, 10.0)
 
 	def test_phantom_bom_explosion(self):
-		from erpnext.manufacturing.doctype.bom.test_bom import create_tree_for_phantom_bom_tests
+		from erpnext.manufacturing.doctype.bom.test_bom import create_nested_bom
 
-		create_tree_for_phantom_bom_tests()
+		bom_tree_1 = {
+			"Top Level Parent": {
+				"Sub Assembly Level 1-1": {"Phantom Item Level 1-2": {"Item Level 1-3": {}}},
+				"Phantom Item Level 2-1": {"Sub Assembly Level 2-2": {"Item Level 2-3": {}}},
+				"Item Level 3-1": {},
+			}
+		}
+		phantom_list = ["Phantom Item Level 1-2", "Phantom Item Level 2-1"]
+		create_nested_bom(bom_tree_1, prefix="", phantom_items=phantom_list)
 
 		plan = create_production_plan(
 			item_code="Top Level Parent",
@@ -2442,8 +2518,13 @@ class TestProductionPlan(IntegrationTestCase):
 		for d in mr_items:
 			plan.append("mr_items", d)
 
-		self.assertEqual(plan.sub_assembly_items[0].production_item, "Sub Assembly Level 1-1")
-		self.assertEqual([item.item_code for item in plan.mr_items], ["Item Level 1-3", "Item Level 2-3"])
+		self.assertEqual(
+			[item.production_item for item in plan.sub_assembly_items],
+			["Sub Assembly Level 1-1", "Sub Assembly Level 2-2"],
+		)
+		self.assertEqual(
+			[item.item_code for item in plan.mr_items], ["Item Level 1-3", "Item Level 2-3", "Item Level 3-1"]
+		)
 
 
 def create_production_plan(**args):

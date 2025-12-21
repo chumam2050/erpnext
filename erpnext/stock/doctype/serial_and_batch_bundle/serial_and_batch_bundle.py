@@ -2495,7 +2495,11 @@ def get_auto_batch_nos(kwargs):
 	available_batches = get_available_batches(kwargs)
 	stock_ledgers_batches = get_stock_ledgers_batches(kwargs)
 	pos_invoice_batches = get_reserved_batches_for_pos(kwargs)
-	sre_reserved_batches = get_reserved_batches_for_sre(kwargs)
+
+	sre_reserved_batches = frappe._dict()
+	if not kwargs.ignore_reserved_stock:
+		sre_reserved_batches = get_reserved_batches_for_sre(kwargs)
+
 	if kwargs.against_sales_order and only_consider_batches:
 		kwargs.batch_no = kwargs.warehouse = None
 
@@ -2738,6 +2742,9 @@ def get_voucher_wise_serial_batch_from_bundle(**kwargs) -> dict[str, dict]:
 		child_row = group_by_voucher[key]
 		if row.serial_no:
 			child_row["serial_nos"].append(row.serial_no)
+			child_row["item_row"].qty = len(child_row["serial_nos"]) * (
+				-1 if row.type_of_transaction == "Outward" else 1
+			)
 
 		if row.batch_no:
 			child_row["batch_nos"][row.batch_no] += row.qty
@@ -2859,6 +2866,7 @@ def get_ledgers_from_serial_batch_bundle(**kwargs) -> list[frappe._dict]:
 			bundle_table.voucher_detail_no,
 			bundle_table.voucher_no,
 			bundle_table.posting_datetime,
+			bundle_table.type_of_transaction,
 		)
 		.where(
 			(bundle_table.docstatus == 1)
