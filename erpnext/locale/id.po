@@ -1098,6 +1098,7 @@ msgstr "Lead memerlukan nama orang atau nama organisasi"
 
 #: erpnext/stock/doctype/packing_slip/packing_slip.py:84
 msgid "A Packing Slip can only be created for Draft Delivery Note."
+msgstr "Slip pengepakan hanya dapat dibuat untuk Surat Jalan yang berstatus Draf."
 msgstr "Slip Pengepakan hanya dapat dibuat untuk Draf Surat Jalan."
 
 #. Description of a DocType
@@ -1498,6 +1499,7 @@ msgstr "Akun Dibayar Ke"
 
 #: erpnext/accounts/doctype/cheque_print_template/cheque_print_template.py:118
 msgid "Account Pay Only"
+msgstr "Hanya untuk akun penerima"
 msgstr "Hanya Untuk Rekening Penerima"
 
 #. Label of the account_subtype (Link) field in DocType 'Bank Account'
@@ -1681,6 +1683,7 @@ msgstr "Akun: {0} hanya dapat diperbarui melalui Transaksi Persediaan"
 
 #: erpnext/accounts/doctype/payment_entry/payment_entry.py:2787
 msgid "Account: {0} is not permitted under Payment Entry"
+msgstr "Akun: {0} tidak diizinkan pada Entri Pembayaran"
 msgstr "Akun: {0} tidak diizinkan di bawah Entri Pembayaran"
 
 #: erpnext/controllers/accounts_controller.py:3261
@@ -2108,6 +2111,7 @@ msgstr ""
 #: erpnext/accounts/workspace/payables/payables.json
 #: erpnext/buying/doctype/supplier/supplier.js:104
 msgid "Accounts Payable"
+msgstr "Hutang Usaha"
 msgstr "Utang Usaha"
 
 #. Name of a report
@@ -2116,6 +2120,7 @@ msgstr "Utang Usaha"
 #: erpnext/accounts/report/accounts_payable_summary/accounts_payable_summary.json
 #: erpnext/accounts/workspace/payables/payables.json
 msgid "Accounts Payable Summary"
+msgstr "Ringkasan Hutang Usaha"
 msgstr "Ringkasan Utang Usaha"
 
 #. Option for the 'Write Off Based On' (Select) field in DocType 'Journal
@@ -2140,6 +2145,7 @@ msgstr "Piutang Usaha"
 #. field in DocType 'Accounts Settings'
 #: erpnext/accounts/doctype/accounts_settings/accounts_settings.json
 msgid "Accounts Receivable / Payable Tuning"
+msgstr "Penyesuaian Piutang / Hutang Usaha"
 msgstr "Penyesuaian Piutang / Utang Usaha"
 
 #. Label of the accounts_receivable_credit (Link) field in DocType 'Invoice
@@ -2423,6 +2429,7 @@ msgstr "Biaya Aktivitas"
 
 #: erpnext/projects/doctype/activity_cost/activity_cost.py:51
 msgid "Activity Cost exists for Employee {0} against Activity Type - {1}"
+msgstr "Biaya aktivitas untuk Karyawan {0} terhadap Tipe Aktivitas - {1} sudah ada"
 msgstr "Biaya Aktivitas sudah ada untuk Karyawan {0} untuk Tipe Aktivitas - {1}"
 
 #: erpnext/projects/doctype/activity_type/activity_type.js:10
@@ -2694,6 +2701,7 @@ msgstr ""
 
 #: erpnext/public/js/event.js:40
 msgid "Add Employees"
+msgstr "Tambahkan Karyawan"
 msgstr "Tambah Karyawan"
 
 #: erpnext/public/js/bom_configurator/bom_configurator.bundle.js:256
@@ -6402,6 +6410,7 @@ msgstr ""
 #: erpnext/accounts/doctype/pos_invoice/pos_invoice.py:530
 #: erpnext/accounts/doctype/sales_invoice/sales_invoice.py:548
 msgid "At least one mode of payment is required for POS invoice."
+msgstr "Setidaknya satu metode pembayaran diperlukan untuk faktur POS."
 msgstr "Setidaknya satu mode pembayaran diperlukan untuk faktur POS."
 
 #: erpnext/setup/doctype/terms_and_conditions/terms_and_conditions.py:34
@@ -7844,6 +7853,7 @@ msgstr ""
 #. Name of a DocType
 #: erpnext/accounts/doctype/bank_guarantee/bank_guarantee.json
 msgid "Bank Guarantee"
+msgstr "Jaminan Bank"
 msgstr "Garansi Bank"
 
 #. Label of the bank_guarantee_number (Data) field in DocType 'Bank Guarantee'
@@ -7871,6 +7881,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:179
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:309
 msgid "Bank Overdraft Account"
+msgstr "Akun Cerukan Bank"
 msgstr "Akun Bank Overdraft"
 
 #. Name of a report
@@ -7897,6 +7908,7 @@ msgstr ""
 
 #: erpnext/accounts/report/bank_reconciliation_statement/bank_reconciliation_statement.py:40
 msgid "Bank Statement balance as per General Ledger"
+msgstr "Saldo laporan bank sesuai Buku Besar"
 msgstr "Saldo Laporan Bank sesuai Buku Besar"
 
 #. Name of a DocType
@@ -10349,6 +10361,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/purchase_invoice/purchase_invoice.py:322
 msgid "Cash or Bank Account is mandatory for making payment entry"
+msgstr "Kas atau Rekening Bank wajib diisi untuk membuat Entri Pembayaran"
 msgstr "Kas atau Rekening Bank wajib untuk membuat entri pembayaran"
 
 #. Label of the cash_bank_account (Link) field in DocType 'POS Invoice'
@@ -13473,6 +13486,7 @@ msgstr "Buat Karyawan"
 
 #: erpnext/utilities/activation.py:135
 msgid "Create Employee Records"
+msgstr "Buat Data Karyawan"
 msgstr "Buat Catatan Karyawan"
 
 #: erpnext/utilities/activation.py:136
@@ -16494,6 +16508,7 @@ msgstr ""
 
 #: erpnext/accounts/report/payment_period_based_on_invoice_date/payment_period_based_on_invoice_date.py:120
 msgid "Delay in payment (Days)"
+msgstr "Keterlambatan Pembayaran (Hari)"
 msgstr "Keterlambatan pembayaran (Hari)"
 
 #: erpnext/stock/report/delayed_item_report/delayed_item_report.py:157
@@ -19086,6 +19101,7 @@ msgstr ""
 
 #: erpnext/setup/doctype/employee/employee.py:214
 msgid "Employee cannot report to himself."
+msgstr "Karyawan tidak dapat melapor kepada dirinya sendiri."
 msgstr "Karyawan tidak dapat melapor ke dirinya sendiri."
 
 #: erpnext/assets/doctype/asset_movement/asset_movement.py:96
@@ -20093,6 +20109,7 @@ msgstr "Biaya"
 
 #: erpnext/controllers/stock_controller.py:897
 msgid "Expense / Difference account ({0}) must be a 'Profit or Loss' account"
+msgstr "Akun Beban / Selisih ({0}) harus merupakan akun 'Laba Rugi'"
 msgstr "Beban akun / Difference ({0}) harus akun 'Laba atau Rugi'"
 
 #. Option for the 'Account Type' (Select) field in DocType 'Account'
@@ -20137,10 +20154,12 @@ msgstr "Beban akun / Difference ({0}) harus akun 'Laba atau Rugi'"
 #: erpnext/subcontracting/doctype/subcontracting_receipt_item/subcontracting_receipt_item.json
 #: erpnext/subcontracting/doctype/subcontracting_receipt_supplied_item/subcontracting_receipt_supplied_item.json
 msgid "Expense Account"
+msgstr "Akun Biaya"
 msgstr "Beban Akun"
 
 #: erpnext/controllers/stock_controller.py:877
 msgid "Expense Account Missing"
+msgstr "Akun Biaya belum ditentukan"
 msgstr "Akun Beban Hilang"
 
 #. Option for the 'Reference Type' (Select) field in DocType 'Journal Entry
@@ -20169,6 +20188,7 @@ msgstr "Rekening pengeluaran adalah wajib untuk item {0}"
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:81
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:140
 msgid "Expenses"
+msgstr "Biaya"
 msgstr "Biaya / Beban"
 
 #. Option for the 'Account Type' (Select) field in DocType 'Account'
@@ -20177,6 +20197,7 @@ msgstr "Biaya / Beban"
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:148
 #: erpnext/accounts/report/account_balance/account_balance.js:49
 msgid "Expenses Included In Asset Valuation"
+msgstr "Beban yang Termasuk Dalam Penilaian Aset"
 msgstr "Beban Yang Termasuk Dalam Penilaian Aset"
 
 #. Option for the 'Account Type' (Select) field in DocType 'Account'
@@ -20185,6 +20206,7 @@ msgstr "Beban Yang Termasuk Dalam Penilaian Aset"
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:153
 #: erpnext/accounts/report/account_balance/account_balance.js:51
 msgid "Expenses Included In Valuation"
+msgstr "Biaya yang Termasuk dalam Penilaian"
 msgstr "Biaya Termasuk di Dalam Penilaian Barang"
 
 #: erpnext/stock/doctype/pick_list/pick_list.py:256
@@ -22626,6 +22648,7 @@ msgstr ""
 #: erpnext/accounts/doctype/bank_clearance/bank_clearance.js:40
 #: erpnext/accounts/doctype/bank_clearance/bank_clearance.js:43
 msgid "Get Payment Entries"
+msgstr "Ambil Entri Pembayaran"
 msgstr "Dapatkan Entries Pembayaran"
 
 #: erpnext/accounts/doctype/payment_order/payment_order.js:23
@@ -28076,6 +28099,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/item_tax_template/item_tax_template.py:61
 msgid "Item Tax Row {0} must have account of type Tax or Income or Expense or Chargeable"
+msgstr "Baris Pajak Item {0} harus memiliki akun bertipe Pajak, Pendapatan, Beban, atau Dibebankan"
 msgstr "Item Pajak Row {0} harus memiliki akun Pajak jenis atau Penghasilan atau Beban atau Dibebankan"
 
 #: erpnext/accounts/doctype/item_tax_template/item_tax_template.py:48
@@ -29569,6 +29593,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:111
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:190
 msgid "Legal Expenses"
+msgstr "Beban Hukum"
 msgstr "Beban Legal"
 
 #: erpnext/regional/report/uae_vat_201/uae_vat_201.py:19
@@ -32000,6 +32025,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:116
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:224
 msgid "Miscellaneous Expenses"
+msgstr "Beban Lain-lain"
 msgstr "Beban lain-lain"
 
 #: erpnext/controllers/buying_controller.py:709
@@ -32106,6 +32132,7 @@ msgstr ""
 #: erpnext/accounts/report/purchase_register/purchase_register.py:201
 #: erpnext/accounts/report/sales_register/sales_register.py:224
 msgid "Mode Of Payment"
+msgstr "Metode Pembayaran"
 msgstr "Mode Pembayaran"
 
 #. Label of the mode_of_payment (Link) field in DocType 'Cashier Closing
@@ -32155,15 +32182,18 @@ msgstr "Mode Pembayaran"
 #: erpnext/accounts/workspace/accounting/accounting.json
 #: erpnext/selling/page/point_of_sale/pos_controller.js:33
 msgid "Mode of Payment"
+msgstr "Metode Pembayaran"
 msgstr "Cara Pembayaran"
 
 #. Name of a DocType
 #: erpnext/accounts/doctype/mode_of_payment_account/mode_of_payment_account.json
 msgid "Mode of Payment Account"
+msgstr "Akun pada Metode Pembayaran"
 msgstr "Mode Akun Pembayaran Rekening"
 
 #: erpnext/accounts/doctype/pos_closing_entry/closing_voucher_details.html:35
 msgid "Mode of Payments"
+msgstr "Metode Pembayaran"
 msgstr "Mode Pembayaran"
 
 #. Label of the model (Data) field in DocType 'Vehicle'
