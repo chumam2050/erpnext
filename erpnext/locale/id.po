@@ -1098,6 +1098,7 @@ msgstr "Lead memerlukan nama orang atau nama organisasi"
 
 #: erpnext/stock/doctype/packing_slip/packing_slip.py:84
 msgid "A Packing Slip can only be created for Draft Delivery Note."
+msgstr "Slip Pengepakan hanya dapat dibuat untuk Draf Surat Jalan."
 msgstr "Slip pengepakan hanya dapat dibuat untuk Surat Jalan yang berstatus Draf."
 msgstr "Slip Pengepakan hanya dapat dibuat untuk Draf Surat Jalan."
 
@@ -1499,6 +1500,7 @@ msgstr "Akun Dibayar Ke"
 
 #: erpnext/accounts/doctype/cheque_print_template/cheque_print_template.py:118
 msgid "Account Pay Only"
+msgstr "Hanya Untuk Rekening Penerima"
 msgstr "Hanya untuk akun penerima"
 msgstr "Hanya Untuk Rekening Penerima"
 
@@ -1683,6 +1685,7 @@ msgstr "Akun: {0} hanya dapat diperbarui melalui Transaksi Persediaan"
 
 #: erpnext/accounts/doctype/payment_entry/payment_entry.py:2787
 msgid "Account: {0} is not permitted under Payment Entry"
+msgstr "Akun: {0} tidak diizinkan di bawah Entri Pembayaran"
 msgstr "Akun: {0} tidak diizinkan pada Entri Pembayaran"
 msgstr "Akun: {0} tidak diizinkan di bawah Entri Pembayaran"
 
@@ -2111,6 +2114,7 @@ msgstr ""
 #: erpnext/accounts/workspace/payables/payables.json
 #: erpnext/buying/doctype/supplier/supplier.js:104
 msgid "Accounts Payable"
+msgstr "Utang Usaha"
 msgstr "Hutang Usaha"
 msgstr "Utang Usaha"
 
@@ -2120,6 +2124,7 @@ msgstr "Utang Usaha"
 #: erpnext/accounts/report/accounts_payable_summary/accounts_payable_summary.json
 #: erpnext/accounts/workspace/payables/payables.json
 msgid "Accounts Payable Summary"
+msgstr "Ringkasan Utang Usaha"
 msgstr "Ringkasan Hutang Usaha"
 msgstr "Ringkasan Utang Usaha"
 
@@ -2145,6 +2150,7 @@ msgstr "Piutang Usaha"
 #. field in DocType 'Accounts Settings'
 #: erpnext/accounts/doctype/accounts_settings/accounts_settings.json
 msgid "Accounts Receivable / Payable Tuning"
+msgstr "Penyesuaian Piutang / Utang Usaha"
 msgstr "Penyesuaian Piutang / Hutang Usaha"
 msgstr "Penyesuaian Piutang / Utang Usaha"
 
@@ -2429,6 +2435,7 @@ msgstr "Biaya Aktivitas"
 
 #: erpnext/projects/doctype/activity_cost/activity_cost.py:51
 msgid "Activity Cost exists for Employee {0} against Activity Type - {1}"
+msgstr "Biaya Aktivitas sudah ada untuk Karyawan {0} untuk Tipe Aktivitas - {1}"
 msgstr "Biaya aktivitas untuk Karyawan {0} terhadap Tipe Aktivitas - {1} sudah ada"
 msgstr "Biaya Aktivitas sudah ada untuk Karyawan {0} untuk Tipe Aktivitas - {1}"
 
@@ -2701,6 +2708,7 @@ msgstr ""
 
 #: erpnext/public/js/event.js:40
 msgid "Add Employees"
+msgstr "Tambah Karyawan"
 msgstr "Tambahkan Karyawan"
 msgstr "Tambah Karyawan"
 
@@ -6410,6 +6418,7 @@ msgstr ""
 #: erpnext/accounts/doctype/pos_invoice/pos_invoice.py:530
 #: erpnext/accounts/doctype/sales_invoice/sales_invoice.py:548
 msgid "At least one mode of payment is required for POS invoice."
+msgstr "Setidaknya satu mode pembayaran diperlukan untuk faktur POS."
 msgstr "Setidaknya satu metode pembayaran diperlukan untuk faktur POS."
 msgstr "Setidaknya satu mode pembayaran diperlukan untuk faktur POS."
 
@@ -7853,6 +7862,7 @@ msgstr ""
 #. Name of a DocType
 #: erpnext/accounts/doctype/bank_guarantee/bank_guarantee.json
 msgid "Bank Guarantee"
+msgstr "Garansi Bank"
 msgstr "Jaminan Bank"
 msgstr "Garansi Bank"
 
@@ -7881,6 +7891,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:179
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:309
 msgid "Bank Overdraft Account"
+msgstr "Akun Bank Overdraft"
 msgstr "Akun Cerukan Bank"
 msgstr "Akun Bank Overdraft"
 
@@ -7908,6 +7919,7 @@ msgstr ""
 
 #: erpnext/accounts/report/bank_reconciliation_statement/bank_reconciliation_statement.py:40
 msgid "Bank Statement balance as per General Ledger"
+msgstr "Saldo Laporan Bank sesuai Buku Besar"
 msgstr "Saldo laporan bank sesuai Buku Besar"
 msgstr "Saldo Laporan Bank sesuai Buku Besar"
 
@@ -10361,6 +10373,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/purchase_invoice/purchase_invoice.py:322
 msgid "Cash or Bank Account is mandatory for making payment entry"
+msgstr "Kas atau Rekening Bank wajib untuk membuat entri pembayaran"
 msgstr "Kas atau Rekening Bank wajib diisi untuk membuat Entri Pembayaran"
 msgstr "Kas atau Rekening Bank wajib untuk membuat entri pembayaran"
 
@@ -13486,6 +13499,7 @@ msgstr "Buat Karyawan"
 
 #: erpnext/utilities/activation.py:135
 msgid "Create Employee Records"
+msgstr "Buat Catatan Karyawan"
 msgstr "Buat Data Karyawan"
 msgstr "Buat Catatan Karyawan"
 
@@ -16508,6 +16522,7 @@ msgstr ""
 
 #: erpnext/accounts/report/payment_period_based_on_invoice_date/payment_period_based_on_invoice_date.py:120
 msgid "Delay in payment (Days)"
+msgstr "Keterlambatan pembayaran (Hari)"
 msgstr "Keterlambatan Pembayaran (Hari)"
 msgstr "Keterlambatan pembayaran (Hari)"
 
@@ -19101,6 +19116,7 @@ msgstr ""
 
 #: erpnext/setup/doctype/employee/employee.py:214
 msgid "Employee cannot report to himself."
+msgstr "Karyawan tidak dapat melapor ke dirinya sendiri."
 msgstr "Karyawan tidak dapat melapor kepada dirinya sendiri."
 msgstr "Karyawan tidak dapat melapor ke dirinya sendiri."
 
@@ -20109,6 +20125,7 @@ msgstr "Biaya"
 
 #: erpnext/controllers/stock_controller.py:897
 msgid "Expense / Difference account ({0}) must be a 'Profit or Loss' account"
+msgstr "Beban akun / Difference ({0}) harus akun 'Laba atau Rugi'"
 msgstr "Akun Beban / Selisih ({0}) harus merupakan akun 'Laba Rugi'"
 msgstr "Beban akun / Difference ({0}) harus akun 'Laba atau Rugi'"
 
@@ -20154,11 +20171,13 @@ msgstr "Beban akun / Difference ({0}) harus akun 'Laba atau Rugi'"
 #: erpnext/subcontracting/doctype/subcontracting_receipt_item/subcontracting_receipt_item.json
 #: erpnext/subcontracting/doctype/subcontracting_receipt_supplied_item/subcontracting_receipt_supplied_item.json
 msgid "Expense Account"
+msgstr "Beban Akun"
 msgstr "Akun Biaya"
 msgstr "Beban Akun"
 
 #: erpnext/controllers/stock_controller.py:877
 msgid "Expense Account Missing"
+msgstr "Akun Beban Hilang"
 msgstr "Akun Biaya belum ditentukan"
 msgstr "Akun Beban Hilang"
 
@@ -20188,6 +20207,7 @@ msgstr "Rekening pengeluaran adalah wajib untuk item {0}"
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:81
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:140
 msgid "Expenses"
+msgstr "Biaya / Beban"
 msgstr "Biaya"
 msgstr "Biaya / Beban"
 
@@ -20197,6 +20217,7 @@ msgstr "Biaya / Beban"
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:148
 #: erpnext/accounts/report/account_balance/account_balance.js:49
 msgid "Expenses Included In Asset Valuation"
+msgstr "Beban Yang Termasuk Dalam Penilaian Aset"
 msgstr "Beban yang Termasuk Dalam Penilaian Aset"
 msgstr "Beban Yang Termasuk Dalam Penilaian Aset"
 
@@ -20206,6 +20227,7 @@ msgstr "Beban Yang Termasuk Dalam Penilaian Aset"
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:153
 #: erpnext/accounts/report/account_balance/account_balance.js:51
 msgid "Expenses Included In Valuation"
+msgstr "Biaya Termasuk di Dalam Penilaian Barang"
 msgstr "Biaya yang Termasuk dalam Penilaian"
 msgstr "Biaya Termasuk di Dalam Penilaian Barang"
 
@@ -22648,6 +22670,7 @@ msgstr ""
 #: erpnext/accounts/doctype/bank_clearance/bank_clearance.js:40
 #: erpnext/accounts/doctype/bank_clearance/bank_clearance.js:43
 msgid "Get Payment Entries"
+msgstr "Dapatkan Entries Pembayaran"
 msgstr "Ambil Entri Pembayaran"
 msgstr "Dapatkan Entries Pembayaran"
 
@@ -28099,6 +28122,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/item_tax_template/item_tax_template.py:61
 msgid "Item Tax Row {0} must have account of type Tax or Income or Expense or Chargeable"
+msgstr "Item Pajak Row {0} harus memiliki akun Pajak jenis atau Penghasilan atau Beban atau Dibebankan"
 msgstr "Baris Pajak Item {0} harus memiliki akun bertipe Pajak, Pendapatan, Beban, atau Dibebankan"
 msgstr "Item Pajak Row {0} harus memiliki akun Pajak jenis atau Penghasilan atau Beban atau Dibebankan"
 
@@ -29593,6 +29617,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:111
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:190
 msgid "Legal Expenses"
+msgstr "Beban Legal"
 msgstr "Beban Hukum"
 msgstr "Beban Legal"
 
@@ -32025,6 +32050,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:116
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:224
 msgid "Miscellaneous Expenses"
+msgstr "Beban lain-lain"
 msgstr "Beban Lain-lain"
 msgstr "Beban lain-lain"
 
@@ -32132,6 +32158,7 @@ msgstr ""
 #: erpnext/accounts/report/purchase_register/purchase_register.py:201
 #: erpnext/accounts/report/sales_register/sales_register.py:224
 msgid "Mode Of Payment"
+msgstr "Mode Pembayaran"
 msgstr "Metode Pembayaran"
 msgstr "Mode Pembayaran"
 
@@ -32182,17 +32209,20 @@ msgstr "Mode Pembayaran"
 #: erpnext/accounts/workspace/accounting/accounting.json
 #: erpnext/selling/page/point_of_sale/pos_controller.js:33
 msgid "Mode of Payment"
+msgstr "Cara Pembayaran"
 msgstr "Metode Pembayaran"
 msgstr "Cara Pembayaran"
 
 #. Name of a DocType
 #: erpnext/accounts/doctype/mode_of_payment_account/mode_of_payment_account.json
 msgid "Mode of Payment Account"
+msgstr "Mode Akun Pembayaran Rekening"
 msgstr "Akun pada Metode Pembayaran"
 msgstr "Mode Akun Pembayaran Rekening"
 
 #: erpnext/accounts/doctype/pos_closing_entry/closing_voucher_details.html:35
 msgid "Mode of Payments"
+msgstr "Mode Pembayaran"
 msgstr "Metode Pembayaran"
 msgstr "Mode Pembayaran"
 
@@ -32669,6 +32699,7 @@ msgstr "Kas Bersih dari Operasi"
 
 #: erpnext/accounts/report/cash_flow/cash_flow.py:163
 msgid "Net Change in Accounts Payable"
+msgstr "Perubahan bersih Hutang"
 msgstr "Perubahan Bersih Hutang Usaha"
 msgstr "Perubahan bersih Hutang"
 
@@ -32970,6 +33001,7 @@ msgstr "Departemen baru"
 
 #: erpnext/setup/doctype/employee/employee_tree.js:29
 msgid "New Employee"
+msgstr "Karyawan baru"
 msgstr "Karyawan Baru"
 msgstr "Karyawan baru"
 
@@ -33775,6 +33807,7 @@ msgstr "Catatan: Item {0} ditambahkan beberapa kali"
 
 #: erpnext/controllers/accounts_controller.py:711
 msgid "Note: Payment Entry will not be created since 'Cash or Bank Account' was not specified"
+msgstr "Catatan: Entry Pembayaran tidak akan dibuat karena 'Cash atau Rekening Bank tidak ditentukan"
 msgstr "Catatan: Entri Pembayaran tidak akan dibuat karena 'Kas atau Rekening Bank' tidak ditentukan."
 msgstr "Catatan: Entry Pembayaran tidak akan dibuat karena 'Cash atau Rekening Bank tidak ditentukan"
 
@@ -36018,17 +36051,20 @@ msgstr ""
 #: erpnext/stock/doctype/packing_slip/packing_slip.json
 #: erpnext/stock/workspace/stock/stock.json
 msgid "Packing Slip"
+msgstr "Slip Packing"
 msgstr "Slip Pengepakan"
 msgstr "Slip Packing"
 
 #. Name of a DocType
 #: erpnext/stock/doctype/packing_slip_item/packing_slip_item.json
 msgid "Packing Slip Item"
+msgstr "Packing Slip Stok Barang"
 msgstr "Item pada Slip Pengepakan"
 msgstr "Packing Slip Stok Barang"
 
 #: erpnext/stock/doctype/delivery_note/delivery_note.py:647
 msgid "Packing Slip(s) cancelled"
+msgstr "Packing slip (s) dibatalkan"
 msgstr "Slip Pengepakan dibatalkan"
 msgstr "Packing slip (s) dibatalkan"
 
@@ -36997,6 +37033,7 @@ msgstr ""
 #: erpnext/selling/report/payment_terms_status_for_sales_order/payment_terms_status_for_sales_order.py:50
 #: erpnext/selling/report/payment_terms_status_for_sales_order/payment_terms_status_for_sales_order.py:273
 msgid "Payment Amount"
+msgstr "Jumlah pembayaran"
 msgstr "Jumlah Pembayaran"
 msgstr "Jumlah pembayaran"
 
@@ -37059,6 +37096,7 @@ msgstr ""
 
 #: erpnext/accounts/utils.py:1114
 msgid "Payment Entries {0} are un-linked"
+msgstr "Entries pembayaran {0} adalah un-linked"
 msgstr "Entri pembayaran {0} tidak tertaut"
 msgstr "Entries pembayaran {0} adalah un-linked"
 
@@ -37151,11 +37189,13 @@ msgstr ""
 #: erpnext/accounts/doctype/payment_request/payment_request.json
 #: erpnext/accounts/workspace/receivables/receivables.json
 msgid "Payment Gateway Account"
+msgstr "Pembayaran Rekening Gateway"
 msgstr "Akun Gateway Pembayaran"
 msgstr "Pembayaran Rekening Gateway"
 
 #: erpnext/accounts/utils.py:1384
 msgid "Payment Gateway Account not created, please create one manually."
+msgstr "Gateway Akun pembayaran tidak dibuat, silakan membuat satu secara manual."
 msgstr "Akun gateway pembayaran belum dibuat; silakan buat secara manual."
 msgstr "Gateway Akun pembayaran tidak dibuat, silakan membuat satu secara manual."
 
@@ -37224,6 +37264,7 @@ msgstr "Pesanan Pembayaran"
 #: erpnext/accounts/doctype/payment_order/payment_order.json
 #: erpnext/accounts/doctype/payment_order_reference/payment_order_reference.json
 msgid "Payment Order Reference"
+msgstr "Referensi Order Pembayaran"
 msgstr "Referensi Pesanan Pembayaran"
 msgstr "Referensi Order Pembayaran"
 
@@ -37253,6 +37294,7 @@ msgstr ""
 #: erpnext/accounts/report/payment_period_based_on_invoice_date/payment_period_based_on_invoice_date.json
 #: erpnext/accounts/workspace/financial_reports/financial_reports.json
 msgid "Payment Period Based On Invoice Date"
+msgstr "Masa Pembayaran Berdasarkan Faktur Tanggal"
 msgstr "Periode Pembayaran Berdasarkan Tanggal Faktur"
 msgstr "Masa Pembayaran Berdasarkan Faktur Tanggal"
 
@@ -37269,6 +37311,7 @@ msgstr "Pembayaran Penerimaan Catatan"
 
 #: erpnext/selling/page/point_of_sale/pos_payment.js:359
 msgid "Payment Received"
+msgstr "Pembayaran diterima"
 msgstr "Pembayaran Diterima"
 msgstr "Pembayaran diterima"
 
@@ -37348,6 +37391,7 @@ msgstr ""
 #: erpnext/buying/doctype/purchase_order/purchase_order.js:471
 #: erpnext/selling/doctype/sales_order/sales_order.js:1152
 msgid "Payment Request"
+msgstr "Permintaan pembayaran"
 msgstr "Permintaan Pembayaran"
 msgstr "Permintaan pembayaran"
 
@@ -37409,6 +37453,7 @@ msgstr ""
 #: erpnext/selling/doctype/quotation/quotation.json
 #: erpnext/selling/doctype/sales_order/sales_order.json
 msgid "Payment Schedule"
+msgstr "Jadwal pembayaran"
 msgstr "Jadwal Pembayaran"
 msgstr "Jadwal pembayaran"
 
@@ -37434,6 +37479,7 @@ msgstr ""
 #: erpnext/accounts/workspace/accounting/accounting.json
 #: erpnext/selling/report/payment_terms_status_for_sales_order/payment_terms_status_for_sales_order.py:30
 msgid "Payment Term"
+msgstr "Jangka waktu pembayaran"
 msgstr "Syarat Pembayaran"
 msgstr "Jangka waktu pembayaran"
 
@@ -37472,6 +37518,7 @@ msgstr ""
 #: erpnext/selling/doctype/quotation/quotation.json
 #: erpnext/selling/doctype/sales_order/sales_order.json
 msgid "Payment Terms"
+msgstr "Syarat pembayaran"
 msgstr "Syarat Pembayaran"
 msgstr "Syarat pembayaran"
 
@@ -37506,6 +37553,7 @@ msgstr ""
 #: erpnext/selling/doctype/quotation/quotation.json
 #: erpnext/selling/doctype/sales_order/sales_order.json
 msgid "Payment Terms Template"
+msgstr "Template Persyaratan Pembayaran"
 msgstr "Template Syarat Pembayaran"
 msgstr "Template Persyaratan Pembayaran"
 
@@ -37536,6 +37584,7 @@ msgstr "Jenis Pembayaran"
 
 #: erpnext/accounts/doctype/payment_entry/payment_entry.py:603
 msgid "Payment Type must be one of Receive, Pay and Internal Transfer"
+msgstr "Jenis Pembayaran harus menjadi salah satu Menerima, Pay dan Internal Transfer"
 msgstr "Jenis Pembayaran harus salah satu dari: Terima, Bayar, atau Transfer Internal"
 msgstr "Jenis Pembayaran harus menjadi salah satu Menerima, Pay dan Internal Transfer"
 
@@ -37552,6 +37601,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/journal_entry/journal_entry.py:867
 msgid "Payment against {0} {1} cannot be greater than Outstanding Amount {2}"
+msgstr "Pembayaran terhadap {0} {1} tidak dapat lebih besar dari Posisi Jumlah {2}"
 msgstr "Pembayaran terhadap {0} {1} tidak dapat lebih besar dari Jumlah Tertunggak {2}"
 msgstr "Pembayaran terhadap {0} {1} tidak dapat lebih besar dari Posisi Jumlah {2}"
 
@@ -37576,6 +37626,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/pos_invoice/pos_invoice.py:389
 msgid "Payment related to {0} is not completed"
+msgstr "Pembayaran yang terkait dengan {0} tidak selesai"
 msgstr "Pembayaran terkait {0} belum selesai"
 msgstr "Pembayaran yang terkait dengan {0} tidak selesai"
 
@@ -37619,6 +37670,7 @@ msgstr ""
 #: erpnext/selling/doctype/customer/customer_dashboard.py:21
 #: erpnext/selling/page/point_of_sale/pos_past_order_summary.js:19
 msgid "Payments"
+msgstr "2. Payment (Pembayaran)"
 msgstr "Pembayaran"
 msgstr "2. Payment (Pembayaran)"
 
@@ -37642,6 +37694,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:156
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:262
 msgid "Payroll Payable"
+msgstr "Payroll Hutang"
 msgstr "Utang Penggajian"
 msgstr "Payroll Hutang"
 
@@ -38525,6 +38578,7 @@ msgstr ""
 
 #: erpnext/selling/page/point_of_sale/pos_controller.js:101
 msgid "Please add Mode of payments and opening balance details."
+msgstr "Harap tambahkan Cara pembayaran dan detail saldo pembukaan."
 msgstr "Harap tambahkan Metode Pembayaran dan rincian saldo awal."
 msgstr "Harap tambahkan Cara pembayaran dan detail saldo pembukaan."
 
@@ -38697,11 +38751,13 @@ msgstr "Tolong jangan membuat lebih dari 500 item sekaligus"
 
 #: erpnext/accounts/doctype/budget/budget.py:182
 msgid "Please enable Applicable on Booking Actual Expenses"
+msgstr "Harap aktifkan Berlaku pada Pemesanan Biaya Aktual"
 msgstr "Harap aktifkan 'Berlaku pada Pemesanan Biaya Aktual'"
 msgstr "Harap aktifkan Berlaku pada Pemesanan Biaya Aktual"
 
 #: erpnext/accounts/doctype/budget/budget.py:178
 msgid "Please enable Applicable on Purchase Order and Applicable on Booking Actual Expenses"
+msgstr "Harap aktifkan Berlaku pada Pesanan Pembelian dan Berlaku pada Pemesanan Biaya Aktual"
 msgstr "Harap aktifkan 'Berlaku pada Pesanan Pembelian' dan 'Berlaku pada Pemesanan Biaya Aktual'"
 msgstr "Harap aktifkan Berlaku pada Pesanan Pembelian dan Berlaku pada Pemesanan Biaya Aktual"
 
@@ -38768,11 +38824,13 @@ msgstr "Harap masukkan Tanggal Pengiriman"
 
 #: erpnext/setup/doctype/sales_person/sales_person_tree.js:9
 msgid "Please enter Employee Id of this sales person"
+msgstr "Cukup masukkan Id Karyawan Sales Person ini"
 msgstr "Masukkan ID Karyawan untuk tenaga penjualan ini."
 msgstr "Cukup masukkan Id Karyawan Sales Person ini"
 
 #: erpnext/stock/doctype/stock_reconciliation/stock_reconciliation.py:961
 msgid "Please enter Expense Account"
+msgstr "Masukan Entrikan Beban Akun"
 msgstr "Masukkan Akun Biaya"
 msgstr "Masukan Entrikan Beban Akun"
 
@@ -38952,6 +39010,7 @@ msgstr ""
 
 #: erpnext/setup/doctype/employee/employee.py:181
 msgid "Please make sure the employees above report to another Active employee."
+msgstr "Harap pastikan karyawan di atas melapor kepada karyawan Aktif lainnya."
 msgstr "Harap pastikan karyawan di atas melapor kepada karyawan lain yang berstatus Aktif."
 msgstr "Harap pastikan karyawan di atas melapor kepada karyawan Aktif lainnya."
 
@@ -39225,6 +39284,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/pos_profile/pos_profile.py:179
 msgid "Please select a default mode of payment"
+msgstr "Harap pilih cara pembayaran default"
 msgstr "Harap pilih metode pembayaran default."
 msgstr "Harap pilih cara pembayaran default"
 
@@ -39517,6 +39577,7 @@ msgstr ""
 
 #: erpnext/setup/doctype/employee/employee.py:273
 msgid "Please set a default Holiday List for Employee {0} or Company {1}"
+msgstr "Silahkan mengatur default Liburan Daftar Karyawan {0} atau Perusahaan {1}"
 msgstr "Harap tetapkan Daftar Liburan default untuk Karyawan {0} atau Perusahaan {1}."
 msgstr "Silahkan mengatur default Liburan Daftar Karyawan {0} atau Perusahaan {1}"
 
@@ -39556,6 +39617,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/sales_invoice/sales_invoice.py:2341
 msgid "Please set default Cash or Bank account in Mode of Payment {0}"
+msgstr "Silakan set Cash standar atau rekening Bank Mode Pembayaran {0}"
 msgstr "Harap tetapkan rekening Kas atau Bank default pada Cara Pembayaran {0}."
 msgstr "Silakan set Cash standar atau rekening Bank Mode Pembayaran {0}"
 
@@ -39853,6 +39915,7 @@ msgstr ""
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py:122
 #: erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts_with_account_number.py:201
 msgid "Postal Expenses"
+msgstr "Beban pos"
 msgstr "Beban Pos"
 msgstr "Beban pos"
 
@@ -44692,6 +44755,7 @@ msgstr "Referensi ada & Referensi Tanggal diperlukan untuk {0}"
 
 #: erpnext/accounts/doctype/payment_entry/payment_entry.py:1291
 msgid "Reference No and Reference Date is mandatory for Bank transaction"
+msgstr "Referensi ada dan Tanggal referensi wajib untuk transaksi Bank"
 msgstr "Nomor Referensi dan Tanggal Referensi wajib untuk transaksi Bank"
 msgstr "Referensi ada dan Tanggal referensi wajib untuk transaksi Bank"
 
@@ -46937,12 +47001,14 @@ msgstr ""
 #: erpnext/accounts/doctype/pos_invoice/pos_invoice.py:563
 #: erpnext/accounts/doctype/sales_invoice/sales_invoice.py:1997
 msgid "Row #{0} (Payment Table): Amount must be negative"
+msgstr "Baris # {0} (Tabel Pembayaran): Jumlah harus negatif"
 msgstr "Baris #{0} (Tabel Pembayaran): Jumlah harus negatif"
 msgstr "Baris # {0} (Tabel Pembayaran): Jumlah harus negatif"
 
 #: erpnext/accounts/doctype/pos_invoice/pos_invoice.py:561
 #: erpnext/accounts/doctype/sales_invoice/sales_invoice.py:1992
 msgid "Row #{0} (Payment Table): Amount must be positive"
+msgstr "Baris # {0} (Tabel Pembayaran): Jumlah harus positif"
 msgstr "Baris #{0} (Tabel Pembayaran): Jumlah harus positif"
 msgstr "Baris # {0} (Tabel Pembayaran): Jumlah harus positif"
 
@@ -47976,6 +48042,7 @@ msgstr ""
 
 #: erpnext/controllers/accounts_controller.py:2712
 msgid "Row {0}: Due Date in the Payment Terms table cannot be before Posting Date"
+msgstr "Baris {0}: Tanggal Jatuh Tempo di tabel Ketentuan Pembayaran tidak boleh sebelum Tanggal Pengiriman"
 msgstr "Baris {0}: Tanggal Jatuh Tempo di tabel Syarat Pembayaran tidak boleh sebelum Tanggal Posting"
 msgstr "Baris {0}: Tanggal Jatuh Tempo di tabel Ketentuan Pembayaran tidak boleh sebelum Tanggal Pengiriman"
 
@@ -48089,6 +48156,7 @@ msgstr "Row {0}: Partai / Rekening tidak sesuai dengan {1} / {2} di {3} {4}"
 
 #: erpnext/accounts/doctype/journal_entry/journal_entry.py:569
 msgid "Row {0}: Party Type and Party is required for Receivable / Payable account {1}"
+msgstr "Row {0}: Partai Jenis dan Partai diperlukan untuk Piutang / Hutang akun {1}"
 msgstr "Baris {0}: Jenis Pihak dan Pihak diperlukan untuk akun Piutang / Hutang {1}"
 msgstr "Row {0}: Partai Jenis dan Partai diperlukan untuk Piutang / Hutang akun {1}"
 
@@ -48099,6 +48167,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/journal_entry/journal_entry.py:639
 msgid "Row {0}: Payment against Sales/Purchase Order should always be marked as advance"
+msgstr "Baris {0}: Pembayaran terhadap Penjualan / Purchase Order harus selalu ditandai sebagai muka"
 msgstr "Baris {0}: Pembayaran terhadap Pesanan Penjualan / Pembelian harus selalu ditandai sebagai pembayaran muka"
 msgstr "Baris {0}: Pembayaran terhadap Penjualan / Purchase Order harus selalu ditandai sebagai muka"
 
@@ -48136,11 +48205,13 @@ msgstr "Baris {0}: Harap atur di Alasan Pembebasan Pajak dalam Pajak Penjualan d
 
 #: erpnext/regional/italy/utils.py:310
 msgid "Row {0}: Please set the Mode of Payment in Payment Schedule"
+msgstr "Baris {0}: Silakan tetapkan Mode Pembayaran dalam Jadwal Pembayaran"
 msgstr "Baris {0}: Harap tetapkan Metode Pembayaran dalam Jadwal Pembayaran"
 msgstr "Baris {0}: Silakan tetapkan Mode Pembayaran dalam Jadwal Pembayaran"
 
 #: erpnext/regional/italy/utils.py:315
 msgid "Row {0}: Please set the correct code on Mode of Payment {1}"
+msgstr "Baris {0}: Silakan tetapkan kode yang benar pada Mode Pembayaran {1}"
 msgstr "Baris {0}: Harap tetapkan kode yang benar pada Metode Pembayaran {1}"
 msgstr "Baris {0}: Silakan tetapkan kode yang benar pada Mode Pembayaran {1}"
 
@@ -52052,6 +52123,7 @@ msgstr ""
 #: erpnext/accounts/report/accounts_receivable/accounts_receivable.js:147
 #: erpnext/accounts/report/accounts_receivable_summary/accounts_receivable_summary.js:120
 msgid "Show Future Payments"
+msgstr "Tampilkan Pembayaran di Masa Mendatang"
 msgstr "Tampilkan Pembayaran Mendatang"
 msgstr "Tampilkan Pembayaran di Masa Mendatang"
 
@@ -56913,6 +56985,7 @@ msgstr "Atribut yang dihapus berikut ini ada di Varian tetapi tidak ada di Templ
 
 #: erpnext/setup/doctype/employee/employee.py:176
 msgid "The following employees are currently still reporting to {0}:"
+msgstr "Karyawan berikut saat ini masih melapor ke {0}:"
 msgstr "Karyawan berikut saat ini masih melapor kepada {0}:"
 msgstr "Karyawan berikut saat ini masih melapor ke {0}:"
 
@@ -57377,6 +57450,7 @@ msgstr "Tindakan ini akan menghentikan penagihan di masa mendatang. Anda yakin i
 
 #: erpnext/accounts/doctype/bank_account/bank_account.js:35
 msgid "This action will unlink this account from any external service integrating ERPNext with your bank accounts. It cannot be undone. Are you certain ?"
+msgstr "Tindakan ini akan memutuskan tautan akun ini dari layanan eksternal yang mengintegrasikan ERPNext dengan rekening bank Anda. Itu tidak bisa diurungkan. Apakah Anda yakin ?"
 msgstr "Tindakan ini akan memutus tautan akun ini dari layanan eksternal yang mengintegrasikan ERPNext dengan rekening bank Anda. Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin?"
 msgstr "Tindakan ini akan memutuskan tautan akun ini dari layanan eksternal yang mengintegrasikan ERPNext dengan rekening bank Anda. Itu tidak bisa diurungkan. Apakah Anda yakin ?"
 
@@ -58131,6 +58205,7 @@ msgstr ""
 
 #: erpnext/accounts/doctype/payment_request/payment_request.py:115
 msgid "To create a Payment Request reference document is required"
+msgstr "Untuk membuat dokumen referensi Request Request diperlukan"
 msgstr "Untuk membuat Permintaan Pembayaran diperlukan dokumen referensi"
 msgstr "Untuk membuat dokumen referensi Request Request diperlukan"
 
@@ -58874,6 +58949,7 @@ msgstr "Jumlah Total Dibayar"
 
 #: erpnext/controllers/accounts_controller.py:2777
 msgid "Total Payment Amount in Payment Schedule must be equal to Grand / Rounded Total"
+msgstr "Jumlah Pembayaran Total dalam Jadwal Pembayaran harus sama dengan Grand / Rounded Total"
 msgstr "Jumlah Total Pembayaran dalam Jadwal Pembayaran harus sama dengan Grand / Rounded Total"
 msgstr "Jumlah Pembayaran Total dalam Jadwal Pembayaran harus sama dengan Grand / Rounded Total"
 
