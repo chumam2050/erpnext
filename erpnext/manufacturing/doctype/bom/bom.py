@@ -1036,10 +1036,14 @@ class BOM(WebsiteGenerator):
 		return erpnext.get_company_currency(self.company)
 
 	def add_to_cur_exploded_items(self, args):
-		if self.cur_exploded_items.get(args.item_code):
-			self.cur_exploded_items[args.item_code]["stock_qty"] += args.stock_qty
+		key = args.item_code
+		if args.operation:
+			key = (args.item_code, args.operation)
+
+		if self.cur_exploded_items.get(key):
+			self.cur_exploded_items[key]["stock_qty"] += args.stock_qty
 		else:
-			self.cur_exploded_items[args.item_code] = args
+			self.cur_exploded_items[key] = args
 
 	def get_child_exploded_items(self, bom_no, stock_qty, operation=None):
 		"""Add all items from Flat BOM of child BOM"""
@@ -1275,10 +1279,14 @@ def get_bom_items_as_dict(
 ):
 	item_dict = {}
 
-	group_by_cond = "group by item_code, stock_uom"
+	group_by_cond = "group by item_code, stock_uom, operation"
 	if frappe.get_cached_value("BOM", bom, "track_semi_finished_goods"):
 		fetch_exploded = 0
 		group_by_cond = "group by item_code, operation_row_id, stock_uom"
+
+	if fetch_scrap_items:
+		fetch_exploded = 0
+		group_by_cond = "group by item_code"
 
 	# Did not use qty_consumed_per_unit in the query, as it leads to rounding loss
 	query = """select
@@ -1355,6 +1363,9 @@ def get_bom_items_as_dict(
 		key = item.item_code
 		if item.operation_row_id:
 			key = (item.item_code, item.operation_row_id)
+
+		if item.operation:
+			key = (item.item_code, item.operation)
 
 		if item.get("is_phantom_item"):
 			data = get_bom_items_as_dict(
@@ -1492,6 +1503,10 @@ def add_non_stock_items_cost(stock_entry, work_order, expense_account, job_card=
 
 	items = {}
 	for d in bom.get(table):
+		# Phantom item is exploded, so its cost is considered via its components
+		if d.get("is_phantom_item"):
+			continue
+
 		items.setdefault(d.item_code, d.amount)
 
 	non_stock_items = frappe.get_all(
@@ -1530,6 +1545,9 @@ def add_operating_cost_component_wise(
 	cost_added = False
 	for row in work_order.operations:
 		if job_card and job_card.operation_id != row.name:
+			continue
+
+		if not row.actual_operation_time:
 			continue
 
 		workstation_cost = frappe.get_all(
@@ -1594,7 +1612,7 @@ def add_operations_cost(stock_entry, work_order=None, expense_account=None, job_
 			job_card=job_card,
 		)
 
-		if not cost_added:
+		if not cost_added and not job_card:
 			stock_entry.append(
 				"additional_costs",
 				{

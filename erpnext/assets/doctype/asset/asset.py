@@ -144,7 +144,6 @@ class Asset(AccountsController):
 
 		created_schedules = []
 		for fb_row in self.get("finance_books"):
-			self.validate_asset_finance_books(fb_row)
 			if not fb_row.rate_of_depreciation:
 				fb_row.rate_of_depreciation = self.get_depreciation_rate(fb_row, on_validate=True)
 
@@ -245,6 +244,8 @@ class Asset(AccountsController):
 
 	def before_submit(self):
 		if self.is_composite_asset and not has_active_capitalization(self.name):
+			if self.split_from and has_active_capitalization(self.split_from):
+				return
 			frappe.throw(_("Please capitalize this asset before submitting."))
 
 	def on_submit(self):
@@ -483,6 +484,9 @@ class Asset(AccountsController):
 			frappe.throw(_("Available-for-use Date should be after purchase date"))
 
 	def validate_linked_purchase_documents(self):
+		if self.flags.is_split_asset:
+			return
+
 		for fieldname, doctype in [
 			("purchase_receipt", "Purchase Receipt"),
 			("purchase_invoice", "Purchase Invoice"),
@@ -589,14 +593,16 @@ class Asset(AccountsController):
 
 	def set_depreciation_rate(self):
 		for d in self.get("finance_books"):
-			d.rate_of_depreciation = flt(
-				self.get_depreciation_rate(d, on_validate=True), d.precision("rate_of_depreciation")
-			)
+			self.validate_asset_finance_books(d)
+			d.rate_of_depreciation = self.get_depreciation_rate(d, on_validate=True)
 
 	def validate_asset_finance_books(self, row):
 		row.expected_value_after_useful_life = flt(
 			row.expected_value_after_useful_life, self.precision("net_purchase_amount")
 		)
+
+		if flt(row.expected_value_after_useful_life) < 0:
+			frappe.throw(_("Row {0}: Expected Value After Useful Life cannot be negative").format(row.idx))
 		if flt(row.expected_value_after_useful_life) >= flt(self.net_purchase_amount):
 			frappe.throw(
 				_("Row {0}: Expected Value After Useful Life must be less than Net Purchase Amount").format(
@@ -607,6 +613,7 @@ class Asset(AccountsController):
 		if not row.depreciation_start_date:
 			row.depreciation_start_date = get_last_day(self.available_for_use_date)
 		self.validate_depreciation_start_date(row)
+		self.validate_total_number_of_depreciations_and_frequency(row)
 
 		if not self.is_existing_asset:
 			self.opening_accumulated_depreciation = 0
@@ -642,6 +649,15 @@ class Asset(AccountsController):
 				).format(row.idx),
 				title=_("Invalid Schedule"),
 			)
+
+	def validate_total_number_of_depreciations_and_frequency(self, row):
+		if row.total_number_of_depreciations <= 0:
+			frappe.throw(
+				_("Row #{0}: Total Number of Depreciations must be greater than zero").format(row.idx)
+			)
+
+		if row.frequency_of_depreciation <= 0:
+			frappe.throw(_("Row #{0}: Frequency of Depreciation must be greater than zero").format(row.idx))
 
 	def validate_depreciation_start_date(self, row):
 		if row.depreciation_start_date:
@@ -968,7 +984,7 @@ class Asset(AccountsController):
 		if isinstance(args, str):
 			args = json.loads(args)
 
-		rate_field_precision = frappe.get_precision(args.doctype, "rate_of_depreciation") or 2
+		rate_field_precision = frappe.get_single_value("System Settings", "float_precision") or 2
 
 		if args.get("depreciation_method") == "Double Declining Balance":
 			return self.get_double_declining_balance_rate(args, rate_field_precision)
@@ -1070,7 +1086,7 @@ def get_asset_naming_series():
 
 
 @frappe.whitelist()
-def make_sales_invoice(asset, item_code, company, serial_no=None, posting_date=None):
+def make_sales_invoice(asset, item_code, company, sell_qty, serial_no=None):
 	asset_doc = frappe.get_doc("Asset", asset)
 	si = frappe.new_doc("Sales Invoice")
 	si.company = company
@@ -1085,7 +1101,7 @@ def make_sales_invoice(asset, item_code, company, serial_no=None, posting_date=N
 			"income_account": disposal_account,
 			"serial_no": serial_no,
 			"cost_center": depreciation_cost_center,
-			"qty": 1,
+			"qty": sell_qty,
 		},
 	)
 
@@ -1365,6 +1381,7 @@ def process_asset_split(existing_asset, split_qty, splitted_asset=None, is_new_a
 	scaling_factor = flt(split_qty) / flt(existing_asset.asset_quantity)
 	new_asset = frappe.copy_doc(existing_asset) if is_new_asset else splitted_asset
 	asset_doc = new_asset if is_new_asset else existing_asset
+	asset_doc.flags.is_split_asset = True
 
 	set_split_asset_values(asset_doc, scaling_factor, split_qty, existing_asset, is_new_asset)
 	log_asset_activity(existing_asset, asset_doc, splitted_asset, is_new_asset)

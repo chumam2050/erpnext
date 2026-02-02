@@ -166,28 +166,45 @@ class SubcontractingController(StockController):
 						_("Row {0}: Item {1} must be a subcontracted item.").format(item.idx, item.item_name)
 					)
 
-				if self.doctype != "Subcontracting Receipt" and item.qty > flt(
-					get_pending_subcontracted_quantity(
-						self.doctype,
-						self.purchase_order if self.doctype == "Subcontracting Order" else self.sales_order,
-					).get(
-						item.purchase_order_item
-						if self.doctype == "Subcontracting Order"
-						else item.sales_order_item
-					)
-					/ item.subcontracting_conversion_factor,
-					frappe.get_precision(
+				if self.doctype != "Subcontracting Receipt":
+					order_item_doctype = (
 						"Purchase Order Item"
 						if self.doctype == "Subcontracting Order"
-						else "Sales Order Item",
-						"qty",
-					),
-				):
-					frappe.throw(
-						_(
-							"Row {0}: Item {1}'s quantity cannot be higher than the available quantity."
-						).format(item.idx, item.item_name)
+						else "Sales Order Item"
 					)
+
+					order_name = (
+						self.purchase_order if self.doctype == "Subcontracting Order" else self.sales_order
+					)
+					order_item_field = frappe.scrub(order_item_doctype)
+
+					if not item.get(order_item_field):
+						frappe.throw(
+							_("Row {0}: Item {1} must be linked to a {2}.").format(
+								item.idx, item.item_name, order_item_doctype
+							)
+						)
+
+					pending_qty = flt(
+						flt(
+							get_pending_subcontracted_quantity(
+								order_item_doctype,
+								order_name,
+							).get(item.get(order_item_field))
+						)
+						/ item.subcontracting_conversion_factor,
+						frappe.get_precision(
+							order_item_doctype,
+							"qty",
+						),
+					)
+
+					if item.qty > pending_qty:
+						frappe.throw(
+							_(
+								"Row {0}: Item {1}'s quantity cannot be higher than the available quantity."
+							).format(item.idx, item.item_name)
+						)
 
 				if self.doctype != "Subcontracting Inward Order":
 					item.amount = item.qty * item.rate
@@ -610,7 +627,9 @@ class SubcontractingController(StockController):
 			and self.doctype != "Subcontracting Inward Order"
 		):
 			row.reserve_warehouse = self.set_reserve_warehouse or item.warehouse
-		elif frappe.get_cached_value("Item", row.rm_item_code, "is_customer_provided_item"):
+		elif frappe.get_cached_value("Item", row.rm_item_code, "is_customer_provided_item") and self.get(
+			"customer_warehouse"
+		):
 			row.warehouse = self.customer_warehouse
 
 	def __set_alternative_item(self, bom_item):
@@ -728,7 +747,6 @@ class SubcontractingController(StockController):
 				self.set_batch_for_supplied_items()
 
 	def set_batch_for_supplied_items(self):
-		from erpnext.stock.doctype.serial_no.serial_no import get_serial_nos_for_outward
 		from erpnext.stock.get_item_details import get_filtered_serial_nos
 
 		if self.is_return:
@@ -1331,9 +1349,7 @@ def get_item_details(items):
 
 
 def get_pending_subcontracted_quantity(doctype, name):
-	table = frappe.qb.DocType(
-		"Purchase Order Item" if doctype == "Subcontracting Order" else "Sales Order Item"
-	)
+	table = frappe.qb.DocType(doctype)
 	query = (
 		frappe.qb.from_(table)
 		.select(table.name, table.stock_qty, table.subcontracted_qty)
@@ -1401,6 +1417,7 @@ def make_rm_stock_entry(
 
 			stock_entry.set_stock_entry_type()
 
+			over_transfer_allowance = frappe.get_single_value("Buying Settings", "over_transfer_allowance")
 			for fg_item_code in fg_item_code_list:
 				for rm_item in rm_items:
 					if (
@@ -1408,14 +1425,27 @@ def make_rm_stock_entry(
 						or rm_item.get("item_code") == fg_item_code
 					):
 						rm_item_code = rm_item.get("rm_item_code")
+						qty = rm_item.get("qty") or max(
+							rm_item.get("required_qty") - rm_item.get("total_supplied_qty"), 0
+						)
+						if qty <= 0 and rm_item.get("total_supplied_qty"):
+							per_transferred = (
+								flt(
+									rm_item.get("total_supplied_qty") / rm_item.get("required_qty"),
+									frappe.db.get_default("float_precision"),
+								)
+								* 100
+							)
+							if per_transferred >= 100 + over_transfer_allowance:
+								continue
+
 						items_dict = {
 							rm_item_code: {
 								rm_detail_field: rm_item.get("name"),
 								"item_name": rm_item.get("item_name")
 								or item_wh.get(rm_item_code, {}).get("item_name", ""),
 								"description": item_wh.get(rm_item_code, {}).get("description", ""),
-								"qty": rm_item.get("qty")
-								or max(rm_item.get("required_qty") - rm_item.get("total_supplied_qty"), 0),
+								"qty": qty,
 								"from_warehouse": rm_item.get("warehouse")
 								or rm_item.get("reserve_warehouse"),
 								"to_warehouse": subcontract_order.supplier_warehouse,

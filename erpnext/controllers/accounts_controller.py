@@ -187,9 +187,8 @@ class AccountsController(TransactionBase):
 
 			msg = ""
 			if self.get("update_outstanding_for_self"):
-				msg = (
-					"We can see {0} is made against {1}. If you want {1}'s outstanding to be updated, "
-					"uncheck '{2}' checkbox. <br><br>Or"
+				msg = _(
+					"We can see {0} is made against {1}. If you want {1}'s outstanding to be updated, uncheck the '{2}' checkbox."
 				).format(
 					frappe.bold(document_type),
 					get_link_to_form(self.doctype, self.get("return_against")),
@@ -200,8 +199,8 @@ class AccountsController(TransactionBase):
 				abs(flt(self.rounded_total) or flt(self.grand_total)) > flt(against_voucher_outstanding)
 			):
 				self.update_outstanding_for_self = 1
-				msg = (
-					"The outstanding amount {} in {} is lesser than {}. Updating the outstanding to this invoice. <br><br>And"
+				msg = _(
+					"The outstanding amount {0} in {1} is lesser than {2}. Updating the outstanding to this invoice."
 				).format(
 					against_voucher_outstanding,
 					get_link_to_form(self.doctype, self.get("return_against")),
@@ -209,11 +208,11 @@ class AccountsController(TransactionBase):
 				)
 
 			if msg:
-				msg += " you can use {} tool to reconcile against {} later.".format(
+				msg += "<br><br>" + _("You can use {0} to reconcile against {1} later.").format(
 					get_link_to_form("Payment Reconciliation"),
 					get_link_to_form(self.doctype, self.get("return_against")),
 				)
-				frappe.msgprint(_(msg))
+				frappe.msgprint(msg)
 
 	def validate(self):
 		if not self.get("is_return") and not self.get("is_debit_note"):
@@ -297,8 +296,6 @@ class AccountsController(TransactionBase):
 
 		if self.doctype == "Purchase Invoice":
 			self.calculate_paid_amount()
-			# apply tax withholding only if checked and applicable
-			self.set_tax_withholding()
 
 		with temporary_flag("company", self.company):
 			validate_regional(self)
@@ -1098,6 +1095,12 @@ class AccountsController(TransactionBase):
 						"is_fixed_asset"
 					):
 						item.set("is_fixed_asset", ret.get("is_fixed_asset", 0))
+
+					if self.doctype in ["Purchase Invoice", "Sales Invoice"] and item.meta.get_field(
+						"tax_withholding_category",
+					):
+						if not item.get("tax_withholding_category") and ret.get("tax_withholding_category"):
+							item.set("tax_withholding_category", ret.get("tax_withholding_category"))
 
 					# Double check for cost center
 					# Items add via promotional scheme may not have cost center set
@@ -3744,9 +3747,9 @@ def validate_child_on_delete(row, parent, ordered_item=None):
 			)
 		if flt(row.ordered_qty):
 			frappe.throw(
-				_("Row #{0}: Cannot delete item {1} which is assigned to customer's purchase order.").format(
-					row.idx, row.item_code
-				)
+				_(
+					"Row #{0}: Cannot delete item {1} which is already ordered against this Sales Order."
+				).format(row.idx, row.item_code)
 			)
 
 	if parent.doctype == "Purchase Order" and flt(row.received_qty):
@@ -3990,6 +3993,8 @@ def update_child_qty_rate(parent_doctype, trans_items, parent_doctype_name, chil
 			elif parent_doctype == "Purchase Order":
 				prev_date, new_date = child_item.get("schedule_date"), d.get("schedule_date")
 
+			prev_description, new_description = (child_item.get("description"), d.get("description"))
+			description_unchanged = prev_description == new_description
 			rate_unchanged = prev_rate == new_rate
 			qty_unchanged = prev_qty == new_qty
 			fg_qty_unchanged = prev_fg_qty == new_fg_qty
@@ -4008,6 +4013,7 @@ def update_child_qty_rate(parent_doctype, trans_items, parent_doctype_name, chil
 				and conversion_factor_unchanged
 				and uom_unchanged
 				and date_unchanged
+				and description_unchanged
 			):
 				continue
 
@@ -4031,6 +4037,7 @@ def update_child_qty_rate(parent_doctype, trans_items, parent_doctype_name, chil
 				child_item.fg_item = d["fg_item"]
 
 		child_item.qty = flt(d.get("qty"))
+		child_item.description = d.get("description")
 		rate_precision = child_item.precision("rate") or 2
 		conv_fac_precision = child_item.precision("conversion_factor") or 2
 		qty_precision = child_item.precision("qty") or 2

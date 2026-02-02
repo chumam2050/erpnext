@@ -184,6 +184,9 @@ class StatusUpdater(Document):
 	Installation Note: Update Installed Qty, Update Percent Qty and Validate over installation
 	"""
 
+	def on_discard(self):
+		self.db_set("status", "Cancelled")
+
 	def update_prevdoc_status(self):
 		self.update_qty()
 		self.validate_qty()
@@ -440,7 +443,7 @@ class StatusUpdater(Document):
 		):
 			return
 
-		if args["source_dt"] != "Pick List Item":
+		if args["source_dt"] != "Pick List Item" and args["target_dt"] != "Quotation Item":
 			if qty_or_amount == "qty":
 				action_msg = _(
 					'To allow over receipt / delivery, update "Over Receipt/Delivery Allowance" in Stock Settings or the Item.'

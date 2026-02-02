@@ -194,6 +194,16 @@ class SalesOrder(SellingController):
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		self.status_updater = [
+			{
+				"source_dt": "Sales Order Item",
+				"target_dt": "Quotation Item",
+				"join_field": "quotation_item",
+				"target_field": "ordered_qty",
+				"target_ref_field": "stock_qty",
+				"source_field": "stock_qty",
+			}
+		]
 
 	def onload(self) -> None:
 		super().onload()
@@ -481,6 +491,7 @@ class SalesOrder(SellingController):
 				frappe.throw(_("Row #{0}: Set Supplier for item {1}").format(d.idx, d.item_code))
 
 	def on_submit(self):
+		super().update_prevdoc_status()
 		self.check_credit_limit()
 		self.update_reserved_qty()
 		self.delete_removed_delivery_schedule_items()
@@ -995,12 +1006,15 @@ def get_requested_item_qty(sales_order):
 		filters={"docstatus": 1, "sales_order": sales_order},
 		fields=[
 			"sales_order_item",
+			"packed_item",
 			{"SUM": "qty", "as": "qty"},
 			{"SUM": "received_qty", "as": "received_qty"},
 		],
-		group_by="sales_order_item",
+		group_by="sales_order_item, packed_item",
 	):
-		result[d.sales_order_item] = frappe._dict({"qty": d.qty, "received_qty": d.received_qty})
+		result[d.sales_order_item or d.packed_item] = frappe._dict(
+			{"qty": d.qty, "received_qty": d.received_qty}
+		)
 
 	return result
 
@@ -1025,10 +1039,36 @@ def make_material_request(source_name, target_doc=None):
 			)
 		)
 
+	def get_remaining_packed_item_qty(so_item):
+		delivered_qty = frappe.db.get_value(
+			"Sales Order Item", {"name": so_item.parent_detail_docname}, ["delivered_qty"]
+		)
+
+		bundle_item_qty = frappe.db.get_value(
+			"Product Bundle Item", {"parent": so_item.parent_item, "item_code": so_item.item_code}, ["qty"]
+		)
+
+		return flt(
+			(
+				flt(so_item.qty)
+				- flt(requested_item_qty.get(so_item.name, {}).get("qty"))
+				- max(
+					flt(delivered_qty) * flt(bundle_item_qty)
+					- flt(requested_item_qty.get(so_item.name, {}).get("received_qty")),
+					0,
+				)
+			)
+			* bundle_item_qty
+		)
+
 	def update_item(source, target, source_parent):
 		# qty is for packed items, because packed items don't have stock_qty field
 		target.project = source_parent.project
-		target.qty = get_remaining_qty(source)
+		target.qty = (
+			get_remaining_packed_item_qty(source)
+			if source.parentfield == "packed_items"
+			else get_remaining_qty(source)
+		)
 		target.stock_qty = flt(target.qty) * flt(target.conversion_factor)
 		target.actual_qty = get_bin_details(
 			target.item_code, target.warehouse, source_parent.company, True
@@ -1058,7 +1098,8 @@ def make_material_request(source_name, target_doc=None):
 			"Sales Order": {"doctype": "Material Request", "validation": {"docstatus": ["=", 1]}},
 			"Packed Item": {
 				"doctype": "Material Request Item",
-				"field_map": {"parent": "sales_order", "uom": "stock_uom"},
+				"field_map": {"parent": "sales_order", "uom": "stock_uom", "name": "packed_item"},
+				"condition": lambda item: get_remaining_packed_item_qty(item) > 0,
 				"postprocess": update_item,
 			},
 			"Sales Order Item": {
@@ -1743,18 +1784,16 @@ def make_work_orders(items, sales_order, company, project=None):
 			frappe.throw(_("Please select Qty against item {0}").format(i.get("item_code")))
 
 		work_order = frappe.get_doc(
-			dict(
-				doctype="Work Order",
-				production_item=i["item_code"],
-				bom_no=i.get("bom"),
-				qty=i["pending_qty"],
-				company=company,
-				sales_order=sales_order,
-				sales_order_item=i["sales_order_item"],
-				project=project,
-				fg_warehouse=i["warehouse"],
-				description=i["description"],
-			)
+			doctype="Work Order",
+			production_item=i["item_code"],
+			bom_no=i.get("bom"),
+			qty=i["pending_qty"],
+			company=company,
+			sales_order=sales_order,
+			sales_order_item=i["sales_order_item"],
+			project=project,
+			fg_warehouse=i["warehouse"],
+			description=i["description"],
 		).insert()
 		work_order.set_work_order_operations()
 		work_order.flags.ignore_mandatory = True
@@ -1953,6 +1992,10 @@ def get_work_order_items(sales_order, for_raw_material_request=0):
 			)
 		]
 
+		overproduction_percentage_for_sales_order = (
+			frappe.get_single_value("Manufacturing Settings", "overproduction_percentage_for_sales_order")
+			/ 100
+		)
 		for table in [so.items, so.packed_items]:
 			for i in table:
 				bom = get_default_bom(i.item_code)
@@ -1961,12 +2004,12 @@ def get_work_order_items(sales_order, for_raw_material_request=0):
 				if not for_raw_material_request:
 					total_work_order_qty = flt(
 						qb.from_(wo)
-						.select(Sum(wo.qty))
+						.select(Sum(wo.qty - wo.process_loss_qty))
 						.where(
 							(wo.production_item == i.item_code)
 							& (wo.sales_order == so.name)
 							& (wo.sales_order_item == i.name)
-							& (wo.docstatus.lt(2))
+							& (wo.docstatus == 1)
 							& (wo.status != "Closed")
 						)
 						.run()[0][0]
@@ -1975,7 +2018,10 @@ def get_work_order_items(sales_order, for_raw_material_request=0):
 				else:
 					pending_qty = stock_qty
 
-				if pending_qty and i.item_code not in product_bundle_parents:
+				if not pending_qty:
+					pending_qty = stock_qty * overproduction_percentage_for_sales_order
+
+				if pending_qty > 0 and i.item_code not in product_bundle_parents:
 					items.append(
 						dict(
 							name=i.name,
