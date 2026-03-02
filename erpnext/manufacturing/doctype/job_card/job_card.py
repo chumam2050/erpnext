@@ -3,6 +3,7 @@
 import datetime
 import json
 from collections import OrderedDict
+from typing import Any
 
 import frappe
 from frappe import _, bold
@@ -82,7 +83,6 @@ class JobCard(Document):
 		batch_no: DF.Link | None
 		bom_no: DF.Link | None
 		company: DF.Link
-		current_time: DF.Int
 		employee: DF.TableMultiSelect[JobCardTimeLog]
 		expected_end_date: DF.Datetime | None
 		expected_start_date: DF.Datetime | None
@@ -118,7 +118,6 @@ class JobCard(Document):
 		serial_no: DF.SmallText | None
 		skip_material_transfer: DF.Check
 		source_warehouse: DF.Link | None
-		started_time: DF.Datetime | None
 		status: DF.Literal[
 			"Open",
 			"Work In Progress",
@@ -1459,7 +1458,7 @@ class JobCard(Document):
 			)
 
 	@frappe.whitelist()
-	def make_stock_entry_for_semi_fg_item(self, auto_submit=False):
+	def make_stock_entry_for_semi_fg_item(self, auto_submit: bool = False):
 		from erpnext.stock.doctype.stock_entry_type.stock_entry_type import ManufactureEntry
 
 		ste = ManufactureEntry(
@@ -1502,7 +1501,7 @@ class JobCard(Document):
 
 
 @frappe.whitelist()
-def make_subcontracting_po(source_name, target_doc=None):
+def make_subcontracting_po(source_name: str, target_doc: Document | str | None = None):
 	def set_missing_values(source, target):
 		_item_details = get_subcontracting_boms_for_finished_goods(source.finished_good)
 
@@ -1545,7 +1544,7 @@ def make_subcontracting_po(source_name, target_doc=None):
 
 
 @frappe.whitelist()
-def make_time_log(kwargs):
+def make_time_log(kwargs: str | dict):
 	if isinstance(kwargs, str):
 		kwargs = json.loads(kwargs)
 
@@ -1557,7 +1556,7 @@ def make_time_log(kwargs):
 
 
 @frappe.whitelist()
-def get_operation_details(work_order, operation):
+def get_operation_details(work_order: str, operation: str):
 	if work_order and operation:
 		return frappe.get_all(
 			"Work Order Operation",
@@ -1567,7 +1566,7 @@ def get_operation_details(work_order, operation):
 
 
 @frappe.whitelist()
-def get_operations(doctype, txt, searchfield, start, page_len, filters):
+def get_operations(doctype: str, txt: str, searchfield: str, start: int, page_len: int, filters: dict):
 	if not filters.get("work_order"):
 		frappe.msgprint(_("Please select a Work Order first."))
 		return []
@@ -1588,7 +1587,7 @@ def get_operations(doctype, txt, searchfield, start, page_len, filters):
 
 
 @frappe.whitelist()
-def make_material_request(source_name, target_doc=None):
+def make_material_request(source_name: str, target_doc: Document | str | None = None):
 	def update_item(obj, target, source_parent):
 		target.warehouse = source_parent.wip_warehouse
 
@@ -1619,7 +1618,7 @@ def make_material_request(source_name, target_doc=None):
 
 
 @frappe.whitelist()
-def make_stock_entry(source_name, target_doc=None):
+def make_stock_entry(source_name: str, target_doc: Document | str | None = None):
 	def update_item(source, target, source_parent):
 		target.t_warehouse = source_parent.wip_warehouse
 
@@ -1691,7 +1690,7 @@ def time_diff_in_minutes(string_ed_date, string_st_date):
 
 
 @frappe.whitelist()
-def get_job_details(start, end, filters=None):
+def get_job_details(start: Any, end: Any, filters: str | dict | None = None):
 	events = []
 
 	event_color = {
@@ -1739,7 +1738,12 @@ def get_job_details(start, end, filters=None):
 
 
 @frappe.whitelist()
-def make_corrective_job_card(source_name, operation=None, for_operation=None, target_doc=None):
+def make_corrective_job_card(
+	source_name: str,
+	operation: str | None = None,
+	for_operation: str | None = None,
+	target_doc: Document | str | None = None,
+):
 	def set_missing_values(source, target):
 		target.is_corrective_job_card = 1
 		target.operation = operation

@@ -165,6 +165,8 @@ class TransactionDeletionRecord(Document):
 
 	def validate(self):
 		frappe.only_for("System Manager")
+		if not self.doctypes_to_be_ignored:
+			self.populate_doctypes_to_be_ignored_table()
 		self.validate_to_delete_list()
 
 	def validate_to_delete_list(self):
@@ -317,7 +319,9 @@ class TransactionDeletionRecord(Document):
 		        list: List of child table DocType names (Table field options)
 		"""
 		return frappe.get_all(
-			"DocField", filters={"parent": doctype_name, "fieldtype": "Table"}, pluck="options"
+			"DocField",
+			filters={"parent": doctype_name, "fieldtype": ["in", ["Table", "Table MultiSelect"]]},
+			pluck="options",
 		)
 
 	def _get_to_delete_row_infos(self, doctype_name, company_field=None, company=None):
