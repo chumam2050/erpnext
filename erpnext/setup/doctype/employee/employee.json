@@ -23,7 +23,6 @@
   "date_of_birth",
   "salutation",
   "column_break1",
-  "identity_card_number",
   "date_of_joining",
   "image",
   "status",
@@ -152,11 +151,6 @@
    "oldfieldname": "salutation",
    "oldfieldtype": "Select",
    "options": "Salutation"
-  },
-  {
-   "fieldname": "identity_card_number",
-   "fieldtype": "Data",
-   "label": "Identity Card Number"
   },
   {
    "fieldname": "first_name",
