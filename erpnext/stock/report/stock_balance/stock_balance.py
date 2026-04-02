@@ -230,9 +230,50 @@ class StockBalanceReport:
 			.groupby(doctype.voucher_detail_no)
 		)
 
-		data = query.run(as_list=True)
-		if data:
-			self.stock_reco_voucher_wise_count = frappe._dict(data)
+		if items := self.filters.item_code:
+			if isinstance(items, str):
+				items = [items]
+
+			query = query.where(item.name.isin(items))
+
+		if self.filters.item_group:
+			childrens = []
+			childrens.append(self.filters.item_group)
+			if item_group_childrens := get_descendants_of(
+				"Item Group", self.filters.item_group, ignore_permissions=True
+			):
+				childrens.extend(item_group_childrens)
+
+			if childrens:
+				query = query.where(item.item_group.isin(childrens))
+
+		if warehouses := self.filters.get("warehouse"):
+			if isinstance(warehouses, str):
+				warehouses = [warehouses]
+
+			childrens = []
+			for warehouse in warehouses:
+				childrens.append(warehouse)
+				if warehouse_childrens := get_descendants_of("Warehouse", warehouse, ignore_permissions=True):
+					childrens.extend(warehouse_childrens)
+
+			if childrens:
+				query = query.where(doctype.warehouse.isin(childrens))
+
+		data = query.run(as_dict=True)
+		if not data:
+			return
+
+		for row in data:
+			if row.count != 1:
+				continue
+
+			sr_item = frappe.db.get_value(
+				"Stock Reconciliation Item", row.voucher_detail_no, ["current_qty", "qty"], as_dict=True
+			)
+
+			if sr_item.qty and sr_item.current_qty:
+				self.stock_reco_voucher_wise_count[row.voucher_detail_no] = sr_item.current_qty
 
 	def prepare_new_data(self):
 		if self.filters.get("show_stock_ageing_data"):
@@ -312,7 +353,8 @@ class StockBalanceReport:
 		if entry.voucher_type == "Stock Reconciliation" and (
 			not entry.batch_no or entry.serial_no or entry.serial_and_batch_bundle
 		):
-			if entry.serial_no and self.stock_reco_voucher_wise_count.get(entry.voucher_detail_no, 0) == 1:
+			if entry.serial_no and entry.voucher_detail_no in self.stock_reco_voucher_wise_count:
+				qty_dict.opening_qty -= self.stock_reco_voucher_wise_count.get(entry.voucher_detail_no, 0)
 				qty_dict.bal_qty = 0.0
 				qty_diff = flt(entry.actual_qty)
 			else:
@@ -433,6 +475,7 @@ class StockBalanceReport:
 				"fieldtype": "Link",
 				"options": "Item",
 				"width": 100,
+				"sticky": "True",
 			},
 			{"label": _("Item Name"), "fieldname": "item_name", "width": 150},
 			{
@@ -448,6 +491,7 @@ class StockBalanceReport:
 				"fieldtype": "Link",
 				"options": "Warehouse",
 				"width": 100,
+				"sticky": "True",
 			},
 		]
 
@@ -478,6 +522,7 @@ class StockBalanceReport:
 					"fieldtype": "Float",
 					"width": 100,
 					"convertible": "qty",
+					"sticky": "True",
 				},
 				{
 					"label": _("Balance Value"),
@@ -485,6 +530,7 @@ class StockBalanceReport:
 					"fieldtype": "Currency",
 					"width": 100,
 					"options": "Company:company:default_currency",
+					"sticky": "True",
 				},
 				{
 					"label": _("Opening Qty"),
